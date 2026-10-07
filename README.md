@@ -18,7 +18,7 @@ O `.env.example` não contém credenciais. Depois de copiá-lo, preencha `API_KE
 Para desenvolvimento com recarga automática: `npm run dev`.
 Para produção: crie `.env.production` com as configurações do ambiente e execute `npm run build` seguido de `npm start`. Não coloque credenciais reais no Git.
 
-Execute os testes com `npm test`. Os testes cobrem conversão e limites de porta, ausência de variáveis obrigatórias, validação conjunta de erros, resposta HTTP e porta já ocupada.
+Execute os testes com `npm test`. A aplicação e os testes são escritos em TypeScript e compilados pelo mesmo `tsconfig.json`; o JavaScript em `dist/` é somente saída gerada para execução pelo Node.js e não é versionado. Os testes cobrem conversão e limites de porta, ausência de variáveis obrigatórias, validação conjunta de erros, resposta HTTP e porta já ocupada.
 
 ## Exercício 1 — Criando e usando o `.env`
 

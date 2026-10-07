@@ -1,26 +1,24 @@
-const assert = require('node:assert/strict');
-const { spawnSync } = require('node:child_process');
-const { test } = require('node:test');
-const path = require('node:path');
+import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { test } from 'node:test';
+import path from 'node:path';
 
-const projectRoot = path.resolve(__dirname, '..');
+const projectRoot = path.resolve(__dirname, '..', '..');
 const reservedEnvironmentKeys = new Set(['NODE_ENV', 'HOST', 'PORT', 'API_KEY']);
 const baseEnvironment = Object.fromEntries(
   Object.entries(process.env).filter(([key]) => !reservedEnvironmentKeys.has(key)),
 );
 
-function loadConfig(overrides = {}) {
-  const result = spawnSync(
+function loadConfig(overrides: NodeJS.ProcessEnv = {}) {
+  return spawnSync(
     process.execPath,
-    ['-e', "const { config } = require('./dist/config'); console.log(JSON.stringify({ ...config, apiKey: '[hidden]', portType: typeof config.port }));"],
+    ['-e', "const { config } = require('./dist/src/config'); console.log(JSON.stringify({ ...config, apiKey: '[hidden]', portType: typeof config.port }));"],
     {
       cwd: projectRoot,
       env: { ...baseEnvironment, NODE_ENV: 'test', API_KEY: '', ...overrides },
       encoding: 'utf8',
     },
   );
-
-  return result;
 }
 
 test('converte a porta textual em number e aplica os valores de configuração', () => {
